@@ -1,4 +1,4 @@
-package libreriaJavaInstituto;
+package libreria.java.instituto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,9 +11,6 @@ public class DatabaseConnection {
 		try {
             //cargar el driver
             DriverManager.registerDriver (new com.mysql.cj.jdbc.Driver());
-
-            //otra manera de cargar el controlador
-            //Class.forName("com.mysql.cj.jdbc.Driver");
 
             //crear un objeto de conexión
             this.connection =

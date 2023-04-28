@@ -1,4 +1,4 @@
-package libreriaJavaInstituto;
+package libreria.java.instituto;
 
 public class Profesor {
 	private String dni;
