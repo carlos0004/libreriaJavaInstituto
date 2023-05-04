@@ -17,12 +17,12 @@ public class TestDatabase {
 		Alumnos.stream().forEach(b->System.out.println(b));
 		
 		ArrayList<Profesor> Profesor = new ArrayList<>();
-		Profesor = dataBaseManager.getProfesores();
+		Profesor= dataBaseManager.getProfesores();
 		Profesor.stream().forEach(b->System.out.println(b));
 		
-		ArrayList<Asignatura> Asignatura = new ArrayList<>();
-		Asignatura = dataBaseManager.getAsignaturas();
-		Asignatura.stream().forEach(b->System.out.println(b));
+		ArrayList<Asignatura> Asignaturas = new ArrayList<>();
+		Asignaturas = dataBaseManager.getAsignaturas();
+		Asignaturas.stream().forEach(b->System.out.println(b));
 		
 		ArrayList<Recibe> Recibe = new ArrayList<>();
 		Recibe = dataBaseManager.getRecibe();
@@ -32,8 +32,16 @@ public class TestDatabase {
 		Alumno = dataBaseManager.getAlumnos("numMatricula", 4);
 		Alumno.stream().forEach(b->System.out.println(b));
 		
+		ArrayList<Asignatura> Asignatura = new ArrayList<>();
+		Asignatura = dataBaseManager.getAsignatura("codAsignatura", "2");
+		Asignatura.stream().forEach(b->System.out.println(b));
 		
+		Profesor = new ArrayList<>();
+		Profesor = dataBaseManager.getProfesores("dni", "123456789");
+		Profesor.stream().forEach(b->System.out.println(b));
 		
+		boolean borradoRegistros;
+		System.out.println(borradoRegistros = dataBaseManager.deleteRegistro("profesor", "987654321"));
 	}
 
 }

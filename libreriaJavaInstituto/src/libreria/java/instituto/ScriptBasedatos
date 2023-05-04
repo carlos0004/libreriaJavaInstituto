@@ -1,0 +1,204 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost
+-- Tiempo de generación: 04-05-2023 a las 09:53:30
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 8.1.6
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `instituto`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `alumno`
+--
+
+CREATE TABLE `alumno` (
+  `numMatricula` int(11) NOT NULL,
+  `nombre` varchar(50) DEFAULT NULL,
+  `fechaNacimiento` date DEFAULT NULL,
+  `telefono` varchar(30) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `alumno`
+--
+
+INSERT INTO `alumno` (`numMatricula`, `nombre`, `fechaNacimiento`, `telefono`) VALUES
+(1, 'Juan Perez', '2005-05-10', '123456789'),
+(2, 'Maria Lopez', '2004-03-15', '987654321'),
+(3, 'Pedro Sanchez', '2003-01-20', '111222333'),
+(5, 'Carlos Hernandez', '2001-11-30', '777888999'),
+(6, 'Sara Fernandez', '2000-09-25', '222333444'),
+(7, 'Luisa Gomez', '1999-06-19', '555666777'),
+(8, 'Pablo Moreno', '1998-04-14', '888999000'),
+(9, 'Carmen Jimenez', '1997-02-09', '333444555'),
+(10, 'Raul Diaz', '1996-08-04', '666777888');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `asignatura`
+--
+
+CREATE TABLE `asignatura` (
+  `codAsignatura` int(11) NOT NULL,
+  `nombre` varchar(30) DEFAULT NULL,
+  `profesor` varchar(30) DEFAULT NULL,
+  `dniProfesor` varchar(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `asignatura`
+--
+
+INSERT INTO `asignatura` (`codAsignatura`, `nombre`, `profesor`, `dniProfesor`) VALUES
+(1, 'Matemáticas', 'Antonio Ruiz', '123456789'),
+(2, 'Lengua', 'Maria Hernandez', '987654321'),
+(3, 'Historia', 'Pablo Diaz', '111222333'),
+(4, 'Inglés', 'Laura Sanchez', '444555666'),
+(5, 'Ciencias Naturales', 'Juan Garcia', '777888999'),
+(6, 'Educación Física', 'Cristina Martinez', '222333444'),
+(7, 'Música', 'Manuel Lopez', '555666777'),
+(8, 'Artes Plásticas', 'Rosa Fernandez', '888999000'),
+(9, 'Tecnología', 'Javier Gonzalez', '333444555'),
+(10, 'Programación', 'Pedro Perez', '666777888');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `profesor`
+--
+
+CREATE TABLE `profesor` (
+  `dni` varchar(9) NOT NULL,
+  `nombre` varchar(30) DEFAULT NULL,
+  `telefono` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `profesor`
+--
+
+INSERT INTO `profesor` (`dni`, `nombre`, `telefono`) VALUES
+('111222333', 'Pablo Diaz', '777888999'),
+('123456789', 'Antonio Ruiz', '111222333'),
+('222333444', 'Cristina Martinez', '888999000'),
+('333444555', 'Javier Gonzalez', '123456789'),
+('444555666', 'Laura Sanchez', '222333444'),
+('555666777', 'Manuel Lopez', '333444555'),
+('666777888', 'Pedro Perez', '987654321'),
+('777888999', 'Juan Garcia', '555666777'),
+('888999000', 'Rosa Fernandez', '666777888'),
+('987654321', 'Maria Hernandez', '444555666');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `recibe`
+--
+
+CREATE TABLE `recibe` (
+  `numMatricula` int(11) NOT NULL,
+  `codAsignatura` int(11) NOT NULL,
+  `cursoEscolar` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `recibe`
+--
+
+INSERT INTO `recibe` (`numMatricula`, `codAsignatura`, `cursoEscolar`) VALUES
+(1, 1, '2021-2022'),
+(1, 2, '2021-2022'),
+(2, 2, '2021-2022'),
+(2, 3, '2021-2022'),
+(3, 3, '2021-2022'),
+(3, 4, '2021-2022'),
+(5, 5, '2021-2022'),
+(5, 6, '2021-2022');
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `alumno`
+--
+ALTER TABLE `alumno`
+  ADD PRIMARY KEY (`numMatricula`),
+  ADD KEY `idx_num_telefono` (`telefono`);
+
+--
+-- Indices de la tabla `asignatura`
+--
+ALTER TABLE `asignatura`
+  ADD PRIMARY KEY (`codAsignatura`),
+  ADD UNIQUE KEY `idx_nombre` (`nombre`),
+  ADD KEY `c1` (`dniProfesor`);
+
+--
+-- Indices de la tabla `profesor`
+--
+ALTER TABLE `profesor`
+  ADD PRIMARY KEY (`dni`),
+  ADD KEY `idx_telefono_profesor` (`telefono`);
+
+--
+-- Indices de la tabla `recibe`
+--
+ALTER TABLE `recibe`
+  ADD PRIMARY KEY (`numMatricula`,`codAsignatura`,`cursoEscolar`),
+  ADD KEY `c4` (`codAsignatura`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `alumno`
+--
+ALTER TABLE `alumno`
+  MODIFY `numMatricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `asignatura`
+--
+ALTER TABLE `asignatura`
+  MODIFY `codAsignatura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `asignatura`
+--
+ALTER TABLE `asignatura`
+  ADD CONSTRAINT `c1` FOREIGN KEY (`dniProfesor`) REFERENCES `profesor` (`dni`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `recibe`
+--
+ALTER TABLE `recibe`
+  ADD CONSTRAINT `c3` FOREIGN KEY (`numMatricula`) REFERENCES `alumno` (`numMatricula`) ON DELETE CASCADE,
+  ADD CONSTRAINT `c4` FOREIGN KEY (`codAsignatura`) REFERENCES `asignatura` (`codAsignatura`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
