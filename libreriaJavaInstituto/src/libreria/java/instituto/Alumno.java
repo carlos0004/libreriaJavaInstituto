@@ -3,7 +3,7 @@ package libreria.java.instituto;
 public class Alumno {
 	private int numMatrícula;
 	private String nombre;
-	private String fechaAlta;
+	private String fechaNacimiento;
 	private String telefono;
 	
 	
@@ -11,7 +11,7 @@ public class Alumno {
 		super();
 		this.numMatrícula = numMatrícula;
 		this.nombre = nombre;
-		this.fechaAlta = fechaAlta;
+		this.fechaNacimiento = fechaAlta;
 		this.telefono = telefono;
 	}
 
@@ -36,13 +36,13 @@ public class Alumno {
 	}
 
 
-	public String getFechaAlta() {
-		return fechaAlta;
+	public String getFechaNacimiento() {
+		return fechaNacimiento;
 	}
 
 
 	public void setFechaAlta(String fechaAlta) {
-		this.fechaAlta = fechaAlta;
+		this.fechaNacimiento = fechaAlta;
 	}
 
 
@@ -58,7 +58,7 @@ public class Alumno {
 
 	@Override
 	public String toString() {
-		return "Alumno [numMatrícula=" + numMatrícula + ", nombre=" + nombre + ", fechaAlta=" + fechaAlta
+		return "Alumno [numMatrícula=" + numMatrícula + ", nombre=" + nombre + ", fechaAlta=" + fechaNacimiento
 				+ ", telefono=" + telefono + "]";
 	}
 	

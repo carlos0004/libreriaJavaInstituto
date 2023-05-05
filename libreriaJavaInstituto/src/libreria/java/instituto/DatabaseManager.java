@@ -20,23 +20,50 @@ public class DatabaseManager {
 		}
 
 	}		
-	public ArrayList<Alumno> getAlumnos(){
+	@SuppressWarnings("null")
+	public ArrayList<Alumno> getAlumnos(String...ordenacion ){
 		ArrayList<Alumno> alumnos = null;
-		try {
-			PreparedStatement ps = this.connection.
-					prepareStatement("SELECT * FROM alumno");
-			ResultSet rs = ps.executeQuery();
-			alumnos = new ArrayList<Alumno>();
-			while(rs.next()) {
-				alumnos.add(new Alumno(rs.getInt(1),
-						rs.getString(2),
-						rs.getString(3),
-						rs.getString(4)));
+		String consultaSql="SELECT * FROM alumno";
+		String orden=" ORDER BY ";
+		if(ordenacion.length==0) {			
+			try {
+				PreparedStatement ps = this.connection.
+						prepareStatement(consultaSql);
+				ResultSet rs = ps.executeQuery();
+				alumnos = new ArrayList<Alumno>();
+				while(rs.next()) {
+					alumnos.add(new Alumno(rs.getInt(1),
+							rs.getString(2),
+							rs.getString(3),
+							rs.getString(4)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return alumnos;
+		}else {
+			for (String col : ordenacion) {
+				orden+=col +  " " + "DESC" + ",";
+			}
+			orden= orden.substring(0, orden.length()-1);
+			consultaSql+=orden;
+			try {
+				System.out.println(consultaSql);
+				PreparedStatement ps = this.connection.
+						prepareStatement(consultaSql);
+				ResultSet rs = ps.executeQuery();
+				alumnos = new ArrayList<Alumno>();
+				while(rs.next()) {
+					alumnos.add(new Alumno(rs.getInt(1),
+							rs.getString(2),
+							rs.getString(3),
+							rs.getString(4)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return alumnos;
 		}
-		return alumnos;
 	}
 
 	public ArrayList<Profesor> getProfesores(){
@@ -119,11 +146,11 @@ public class DatabaseManager {
 
 
 
-	public ArrayList<Asignatura> getAsignatura(String campoOrdenacion, String valor){
+	public ArrayList<Asignatura> getAsignatura(String campoBusqueda, String valor){
 		ArrayList<Asignatura> asignaturas = null;
 		try {
 			PreparedStatement ps = this.connection.
-					prepareStatement("SELECT * FROM asignatura where " + campoOrdenacion + " =?");
+					prepareStatement("SELECT * FROM asignatura where " + campoBusqueda + " =?");
 			ps.setString(1,valor);
 			ResultSet rs = ps.executeQuery();
 			asignaturas = new ArrayList<Asignatura>();
@@ -139,12 +166,11 @@ public class DatabaseManager {
 		return asignaturas;
 	}
 
-	
-	public ArrayList<Profesor> getProfesores(String campoOrdenacion, String valor){
+	public ArrayList<Profesor> getProfesores(String campoBusqueda, String valor){
 		ArrayList<Profesor> profesores = null;
 		try {
 			PreparedStatement ps = this.connection.
-					prepareStatement("SELECT * FROM profesor where " + campoOrdenacion + " =?");
+					prepareStatement("SELECT * FROM profesor where " + campoBusqueda + " =?");
 			ps.setString(1,valor);
 			ResultSet rs = ps.executeQuery();
 			profesores = new ArrayList<Profesor>();
@@ -158,8 +184,7 @@ public class DatabaseManager {
 		}
 		return profesores;
 	}
-	
-	
+
 	public boolean deleteRegistro(String tabla, String filtrado){
 		boolean delete = false;
 		int filtradoAuxiliar= 0;
@@ -172,15 +197,14 @@ public class DatabaseManager {
 				campoAuxiliar="codAsignatura";
 				filtradoAuxiliar=Integer.parseInt(filtrado);
 			}else if (tabla=="profesor") {
-				campoAuxiliar="dni";
-				
-				
+				campoAuxiliar="dni";				
+
 			}
 			try {
-				
-				delete=this.statement.executeUpdate("DELETE FROM " + tabla + " WHERE " + campoAuxiliar + " = " + filtrado)>0?true:false;
+
+				delete=this.statement.executeUpdate("DELETE FROM " + tabla + " WHERE " + campoAuxiliar + " = " + filtradoAuxiliar)>0?true:false;
 				this.statement.close();
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 				delete=false;
@@ -189,11 +213,54 @@ public class DatabaseManager {
 			System.out.println("Tabla inexistente");
 			delete=false;
 		}
-		
 		return delete;
 	}
-	
-	
-	
+
+	public boolean updateAlumno(Alumno alumno) {
+		boolean updated = false;
+		String []array = {"nombre",
+				"fechaNacimiento","telefono", "numMatricula"};
+		try {
+
+			updated= (this.statement.executeUpdate("UPDATE alumno SET nombre='" + alumno.getNombre() +
+					"',fechaNacimiento='" + alumno.getFechaNacimiento() + "',telefono='" + alumno.getTelefono() +
+					"' WHERE numMatricula=" + alumno.getNumMatrícula(), array))>0;
+					this.statement.close();
+		}catch(SQLException e) {
+			return updated;
+		}
+
+		return updated;
+	}
+
+	public boolean updateAsigntura(Asignatura asignatura) {
+		boolean updated = false;
+		try {
+			updated= (this.statement.executeUpdate("UPDATE asignatura SET nombre='" + asignatura.getNombre() +
+					"',profesor='" + asignatura.getProfesor() + "',dniProfesor='" + asignatura.getDniProfesor() +
+					"' WHERE codAsignatura=" + asignatura.getCodAsignatura() ))>0;
+					this.statement.close();
+		}catch(SQLException e) {
+			return updated;
+		}
+
+		return updated;
+	}
+	public boolean updateProfesor(Profesor profesor) {
+		boolean update=false;
+
+		try {
+
+			update=(this.statement.executeUpdate("UPDATE profesor SET nombre='" + profesor.getNombre() +
+					"' ,telefono= '" + profesor.getTelefono() + "' WHERE dni= '" +profesor.getDni() + "'"))>0;
+					this.statement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return update;
+		}
+		return update;
+	}
+
 }
 
