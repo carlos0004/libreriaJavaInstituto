@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profesores>
+    <profesor dni="111222333" nombre="Pablo Díaz" telefono="657854387"/>
+    <profesor dni="123456789" nombre="Antonio Rui" telefono="666666666"/>
+    <profesor dni="222333444" nombre="Cristina Martinez" telefono="888999000"/>
+    <profesor dni="333444555" nombre="Javier Gonzalez" telefono="123456789"/>
+    <profesor dni="444555666" nombre="Laura Sanchez" telefono="222333444"/>
+    <profesor dni="555666777" nombre="Manuel Lopez" telefono="333444555"/>
+    <profesor dni="666777888" nombre="Pedro Perez" telefono="987654321"/>
+    <profesor dni="777888999" nombre="Juan Garcia" telefono="555666777"/>
+</profesores>

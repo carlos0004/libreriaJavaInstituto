@@ -21,7 +21,7 @@ public class DatabaseManager {
 
 	}		
 	@SuppressWarnings("null")
-	public ArrayList<Alumno> getAlumnos(String...ordenacion ){
+	public ArrayList<Alumno> getAlumnos(ColunmOrder...ordenacion ){
 		ArrayList<Alumno> alumnos = null;
 		String consultaSql="SELECT * FROM alumno";
 		String orden=" ORDER BY ";
@@ -42,8 +42,8 @@ public class DatabaseManager {
 			}
 			return alumnos;
 		}else {
-			for (String col : ordenacion) {
-				orden+=col +  " " + "DESC" + ",";
+			for (ColunmOrder col : ordenacion) {
+				orden+=col.getColumna() +  " " + col.getOrden() + ",";
 			}
 			orden= orden.substring(0, orden.length()-1);
 			consultaSql+=orden;
@@ -66,44 +66,98 @@ public class DatabaseManager {
 		}
 	}
 
-	public ArrayList<Profesor> getProfesores(){
+	public ArrayList<Profesor> getProfesores(ColunmOrder...ordenacion){
 		ArrayList<Profesor> profesores = null;
-		try {
-			PreparedStatement ps = this.connection.
-					prepareStatement("SELECT * FROM profesor");
-			ResultSet rs = ps.executeQuery();
-			profesores = new ArrayList<Profesor>();
-			while(rs.next()) {
-				profesores.add(new Profesor(rs.getString(1),
-						rs.getString(2),
-						rs.getString(3)));
+		String consultaSql="SELECT * FROM profesor";
+		String orden=" ORDER BY ";
+		if(ordenacion.length==0) {
+			try {
+				PreparedStatement ps = this.connection.
+						prepareStatement(consultaSql);
+				ResultSet rs = ps.executeQuery();
+				profesores = new ArrayList<Profesor>();
+				while(rs.next()) {
+					profesores.add(new Profesor(rs.getString(1),
+							rs.getString(2),
+							rs.getString(3)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return profesores;
+
+		}else {
+			for (ColunmOrder col : ordenacion) {
+				orden+=col.getColumna() +  " " + col.getOrden() + ",";
+			}
+			orden= orden.substring(0, orden.length()-1);
+			consultaSql+=orden;
+			try {
+				System.out.println(consultaSql);
+				PreparedStatement ps = this.connection.
+						prepareStatement(consultaSql);
+				ResultSet rs = ps.executeQuery();
+				profesores = new ArrayList<Profesor>();
+				while(rs.next()) {
+					profesores.add(new Profesor(rs.getString(1),
+							rs.getString(2),
+							rs.getString(3)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return profesores;
+
 		}
-		return profesores;
+
 
 	}
 
 
-	public ArrayList<Asignatura> getAsignaturas(){
+	public ArrayList<Asignatura> getAsignaturas(ColunmOrder...ordenacion){
 		ArrayList<Asignatura> asignaturas = null;
-		try {
-			PreparedStatement ps = this.connection.
-					prepareStatement("SELECT * FROM asignatura");
-			ResultSet rs = ps.executeQuery();
-			asignaturas = new ArrayList<Asignatura>();
-			while(rs.next()) {
-				asignaturas.add(new Asignatura(rs.getInt(1),
-						rs.getString(2),
-						rs.getString(3),
-						rs.getInt(4)));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return asignaturas;
+		String consultaSql="SELECT * FROM asignatura";
+		String orden=" ORDER BY ";
+		if(ordenacion.length==0) {
 
+			try {
+				PreparedStatement ps = this.connection.
+						prepareStatement(consultaSql);
+				ResultSet rs = ps.executeQuery();
+				asignaturas = new ArrayList<Asignatura>();
+				while(rs.next()) {
+					asignaturas.add(new Asignatura(rs.getInt(1),
+							rs.getString(2),
+							rs.getString(3),
+							rs.getInt(4)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return asignaturas;
+		}else {
+			for (ColunmOrder col : ordenacion) {
+				orden+=col.getColumna() +  " " + col.getOrden() + ",";
+			}
+			orden= orden.substring(0, orden.length()-1);
+			consultaSql+=orden;
+			System.out.println(consultaSql);
+			try {
+				PreparedStatement ps = this.connection.
+						prepareStatement(consultaSql);
+				ResultSet rs = ps.executeQuery();
+				asignaturas = new ArrayList<Asignatura>();
+				while(rs.next()) {
+					asignaturas.add(new Asignatura(rs.getInt(1),
+							rs.getString(2),
+							rs.getString(3),
+							rs.getInt(4)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return asignaturas;	
+		}
 	}
 
 	public ArrayList<Recibe> getRecibe(){
@@ -197,14 +251,14 @@ public class DatabaseManager {
 				campoAuxiliar="codAsignatura";
 				filtradoAuxiliar=Integer.parseInt(filtrado);
 			}else if (tabla=="profesor") {
-				campoAuxiliar="dni";				
+				campoAuxiliar="dni";
+				filtradoAuxiliar=Integer.parseInt(filtrado);
 
 			}
 			try {
-
-				delete=this.statement.executeUpdate("DELETE FROM " + tabla + " WHERE " + campoAuxiliar + " = " + filtradoAuxiliar)>0?true:false;
-				this.statement.close();
-
+				PreparedStatement ps = this.connection.
+						prepareStatement("DELETE FROM " + tabla + " WHERE " + campoAuxiliar + " = " + filtradoAuxiliar);
+				delete = ps.executeUpdate()>0;
 			} catch (SQLException e) {
 				e.printStackTrace();
 				delete=false;
@@ -218,28 +272,29 @@ public class DatabaseManager {
 
 	public boolean updateAlumno(Alumno alumno) {
 		boolean updated = false;
-		String []array = {"nombre",
-				"fechaNacimiento","telefono", "numMatricula"};
 		try {
-
-			updated= (this.statement.executeUpdate("UPDATE alumno SET nombre='" + alumno.getNombre() +
+			PreparedStatement ps = this.connection.prepareStatement("UPDATE alumno SET nombre='" + alumno.getNombre() +
 					"',fechaNacimiento='" + alumno.getFechaNacimiento() + "',telefono='" + alumno.getTelefono() +
-					"' WHERE numMatricula=" + alumno.getNumMatrícula(), array))>0;
-					this.statement.close();
+					"' WHERE numMatricula=" + alumno.getNumMatrícula());
+			updated= ps.executeUpdate()>0;
 		}catch(SQLException e) {
 			return updated;
 		}
 
 		return updated;
 	}
-
+	/**
+	 * 
+	 * @param asignatura
+	 * @return
+	 */
 	public boolean updateAsigntura(Asignatura asignatura) {
 		boolean updated = false;
 		try {
-			updated= (this.statement.executeUpdate("UPDATE asignatura SET nombre='" + asignatura.getNombre() +
+			PreparedStatement ps = this.connection.prepareStatement("UPDATE asignatura SET nombre='" + asignatura.getNombre() +
 					"',profesor='" + asignatura.getProfesor() + "',dniProfesor='" + asignatura.getDniProfesor() +
-					"' WHERE codAsignatura=" + asignatura.getCodAsignatura() ))>0;
-					this.statement.close();
+					"' WHERE codAsignatura=" + asignatura.getCodAsignatura());
+			updated= (ps.executeUpdate())>0;
 		}catch(SQLException e) {
 			return updated;
 		}
@@ -250,10 +305,9 @@ public class DatabaseManager {
 		boolean update=false;
 
 		try {
-
-			update=(this.statement.executeUpdate("UPDATE profesor SET nombre='" + profesor.getNombre() +
-					"' ,telefono= '" + profesor.getTelefono() + "' WHERE dni= '" +profesor.getDni() + "'"))>0;
-					this.statement.close();
+			PreparedStatement ps = this.connection.prepareStatement("UPDATE profesor SET nombre='" + profesor.getNombre() +
+					"' ,telefono= '" + profesor.getTelefono() + "' WHERE dni= '" +profesor.getDni() + "'");
+			update=(ps.executeUpdate())>0;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
