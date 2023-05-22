@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<asignaturas>
+    <asignatura codAsignatura="1" dniProfesor="123456789" nombre="Mates" profesor="Antonio Ruiz"/>
+    <asignatura codAsignatura="2" dniProfesor="111222333" nombre="Historia" profesor="Pablo Diaz"/>
+    <asignatura codAsignatura="3" dniProfesor="222333444" nombre="Educación Física" profesor="Cristina Martinez"/>
+    <asignatura codAsignatura="4" dniProfesor="555666777" nombre="Música" profesor="Manuel Lopez"/>
+    <asignatura codAsignatura="5" dniProfesor="333444555" nombre="Tecnología" profesor="Javier Gonzalez"/>
+    <asignatura codAsignatura="6" dniProfesor="654676443" nombre="Linguistica" profesor="Pedro Picapiedra"/>
+</asignaturas>

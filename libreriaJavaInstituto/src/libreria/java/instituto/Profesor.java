@@ -1,11 +1,21 @@
 package libreria.java.instituto;
+/**
+ * Clase de Profesor
+ * @author usuario
+ *
+ */
 
 public class Profesor {
 	private String dni;
 	private String nombre;
 	private String telefono;
+	/**
+	 * Constructor de profesor
+	 * @param dni
+	 * @param nombre
+	 * @param telefono
+	 */
 	public Profesor(String dni, String nombre, String telefono) {
-		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.telefono = telefono;

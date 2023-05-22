@@ -1,11 +1,22 @@
 package libreria.java.instituto;
-
+/**
+ * Clase de Asignatura
+ * @author usuario
+ *
+ */
 public class Asignatura {
 	private int codAsignatura;
 	private String nombre;
 	private String profesor;
 	private int dniProfesor;
 	
+	/**
+	 * Constructor de asignatura
+	 * @param codAsignatura
+	 * @param nombre
+	 * @param profesor
+	 * @param dniProfesor
+	 */
 	public Asignatura(int codAsignatura, String nombre, String profesor, int dniProfesor) {
 		this.codAsignatura = codAsignatura;
 		this.nombre = nombre;

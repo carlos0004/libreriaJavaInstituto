@@ -1,14 +1,23 @@
 package libreria.java.instituto;
-
+/**
+ * Clase de Alumno
+ * @author usuario
+ *
+ */
 public class Alumno {
 	private int numMatrícula;
 	private String nombre;
 	private String fechaNacimiento;
 	private String telefono;
 	
-	
+	/**
+	 * Constructor de Alumno
+	 * @param numMatrícula
+	 * @param nombre
+	 * @param fechaAlta
+	 * @param telefono
+	 */
 	public Alumno(int numMatrícula, String nombre, String fechaAlta, String telefono) {
-		super();
 		this.numMatrícula = numMatrícula;
 		this.nombre = nombre;
 		this.fechaNacimiento = fechaAlta;

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<alumnos>
+    <alumno FechaNacimiento="2005-05-10" nombre="Carlos Sánchez" numMatricula="1" telefono="123456789"/>
+    <alumno FechaNacimiento="2004-03-15" nombre="Maria Lopez" numMatricula="2" telefono="987654321"/>
+    <alumno FechaNacimiento="2001-11-30" nombre="Carlos Hernandez" numMatricula="3" telefono="777888999"/>
+    <alumno FechaNacimiento="2008-09-17" nombre="Nerea Reyes" numMatricula="4" telefono="675654543"/>
+    <alumno FechaNacimiento="2005-05-10" nombre="Mario Prada" numMatricula="5" telefono="123456789"/>
+    <alumno FechaNacimiento="2004-09-17" nombre="Maria Moyano" numMatricula="6" telefono="675654543"/>
+    <alumno FechaNacimiento="2008-09-17" nombre="Jesús Lucena" numMatricula="7" telefono="675654543"/>
+</alumnos>
